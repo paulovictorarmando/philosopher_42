@@ -34,11 +34,11 @@ make fclean
 
 <h4>number_of_philosophers:</h4> The total number of philosophers (must be a positive integer).
 
-<h4>time_to_die:</h4> The maximum time (in milliseconds) a philosopher can go without eating before dying.
+<b>time_to_die:</b> The maximum time (in milliseconds) a philosopher can go without eating before dying.
 
-<h4>time_to_eat:</h4> The time (in milliseconds) a philosopher spends eating.
+<b>time_to_eat:</b> The time (in milliseconds) a philosopher spends eating.
 
-<h4>time_to_sleep:</h4> The time (in milliseconds) a philosopher spends sleeping after eating.
+<b>time_to_sleep:</b> The time (in milliseconds) a philosopher spends sleeping after eating.
 
-<h4>number_of_meals:</h4> The number of times each philosopher should eat (optional).
+<b>number_of_meals:</b> The number of times each philosopher should eat (optional).
 ###
