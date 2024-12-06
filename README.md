@@ -29,7 +29,8 @@ make clean
 make fclean
 ```
 ### 4. Using:
-./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_meals]
+./philo  [number_of_philosophers]  [time_to_die]  [time_to_eat]  [time_to_sleep]  [number_of_meals]
+
 ex.:
 ```
 ./philo 5 800 200 200 7
