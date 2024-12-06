@@ -4,8 +4,10 @@
 Philosopher is a project that simulates the famous Dining Philosophers problem, which is a classic synchronization problem in computer science. The goal of the project is to model philosophers who sit around a table, where each philosopher alternates between thinking and eating. The challenge is to avoid situations such as deadlock and resource starvation while ensuring that the philosophers can eat in a fair and synchronized way.
 
 ### How It Works:
-Each philosopher is a thread: In this simulation, each philosopher is represented by a thread that alternates between thinking, eating, and sleeping.
-Each fork is a mutex: The forks used by the philosophers are simulated with mutexes to ensure that only one philosopher can use a fork at any given time.
+<b>Each philosopher is a thread:</b> In this simulation, each philosopher is represented by a thread that alternates between thinking, eating, and sleeping.
+
+<b>Each fork is a mutex:<b> The forks used by the philosophers are simulated with mutexes to ensure that only one philosopher can use a fork at any given time.
+
 The project ensures proper synchronization by using mutexes to manage access to the shared resources (the forks) and avoid problems like deadlock or resource starvation.
 
 
