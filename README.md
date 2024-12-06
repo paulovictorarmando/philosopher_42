@@ -32,7 +32,7 @@ make fclean
 
 ```
 
-<h4>number_of_philosophers:</h4> The total number of philosophers (must be a positive integer).
+<b>number_of_philosophers:</b> The total number of philosophers (must be a positive integer).
 
 <b>time_to_die:</b> The maximum time (in milliseconds) a philosopher can go without eating before dying.
 
