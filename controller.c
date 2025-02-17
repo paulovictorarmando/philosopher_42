@@ -3,73 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   controller.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: parmando <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pgomes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 04:33:59 by parmando          #+#    #+#             */
-/*   Updated: 2024/11/22 04:34:04 by parmando         ###   ########.fr       */
+/*   Updated: 2025/02/13 13:07:29 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	set_end(t_table *table)
-{
-	pthread_mutex_lock(&table->end_check);
-	table->end = true;
-	pthread_mutex_unlock(&table->end_check);
-}
-
-static bool	full_eat(t_philo *philos)
+static void	set_end_all(t_table *table)
 {
 	int	i;
-	int	eaten;
 
 	i = -1;
-	eaten = 0;
-	if (philos->table->meals_required == -1)
-		return (false);
-	while (++i < philos->table->num_philos)
+	while (++i < table->num_philos)
 	{
-		pthread_mutex_lock(&philos->table->eaten);
-		if (philos[i].meals_eaten >= philos->table->meals_required)
-			eaten++;
-		pthread_mutex_unlock(&philos->table->eaten);
+		pthread_mutex_lock(&table->end_check);
+		table->philos[i].end = true;
+		pthread_mutex_unlock(&table->end_check);
 	}
-	return (eaten == philos->table->num_philos);
 }
+
 
 static bool	death_confirm(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->eaten);
-	if (get_time() - philo->last_meal_time >= philo->table->time_to_die)
+	if (get_time() - get_last_meal_time(philo) >= philo->table->time_to_die)
 	{
-		pthread_mutex_unlock(&philo->table->eaten);
-		put_state("died", philo);
+		pthread_mutex_lock(&philo->table->end_check);
+		philo->end = true;
+		printf("%lld %d %s\n", get_time() - philo->table->start_time,
+			philo->id, "died");
+		pthread_mutex_unlock(&philo->table->end_check);
 		return (true);
 	}
-	pthread_mutex_unlock(&philo->table->eaten);
 	return (false);
 }
 
-void	controller(t_philo *philos)
+void	*controller(void *args)
 {
 	int		i;
+	t_table *table;
 
-	while (true)
-	{
-		i = -1;
-		while (++i < philos->table->num_philos)
+	table = (t_table *)args;
+	i = -1;
+	while (++i < table->num_philos)
+	{				
+		if (death_confirm(&table->philos[i]) || get_state(&table->philos[i]))
 		{
-			if (death_confirm(&philos[i]))
-			{
-				set_end(philos->table);
-				return ;
-			}
+			set_end_all(table);
+			break ;
 		}
-		if (full_eat(philos))
-		{
-			set_end(philos->table);
-			return ;
-		}
+		if(i == table->num_philos - 1)
+			i = -1;
 	}
+	return (NULL);
 }
